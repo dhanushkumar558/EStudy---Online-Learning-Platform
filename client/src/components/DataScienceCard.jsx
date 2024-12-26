@@ -59,8 +59,9 @@ const DS = () => {
         className="container-fluid d-flex justify-content-center align-items-center"
         style={{ textAlign: "center" }}
       >
-        <h2>Data Science Courses</h2>
+        <h2>Data Science Courses</h2> 
       </div>
+      <br></br>
 
       <div className="container-fluid position-relative">
         {/* Left Arrow */}
