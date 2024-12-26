@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
-const InfiniteScrollingCards_WEB = () => {
+const DS = () => {
   const [cards, setCards] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
@@ -10,7 +10,7 @@ const InfiniteScrollingCards_WEB = () => {
   useEffect(() => {
     // Fetch cards data from the backend
     axios
-      .get("http://localhost:5000/api/web")
+      .get("http://localhost:5000/api/ds")
       .then((response) => {
         setCards(response.data); // Set the cards data from API response
       })
@@ -59,7 +59,7 @@ const InfiniteScrollingCards_WEB = () => {
         className="container-fluid d-flex justify-content-center align-items-center"
         style={{ textAlign: "center" }}
       >
-        <h2>Web Development Courses</h2>
+        <h2>Data Science Courses</h2>
       </div>
 
       <div className="container-fluid position-relative">
@@ -189,4 +189,4 @@ const InfiniteScrollingCards_WEB = () => {
   );
 };
 
-export default InfiniteScrollingCards_WEB;
+export default DS;

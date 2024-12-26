@@ -7,7 +7,7 @@ const Navbar =()=>
           <nav className="navbar navbar-expand-lg" style={{ backgroundColor: "red" }}>
             <div className="container-fluid d-flex justify-content-center">
               <a className="navbar-brand" href="#" style={{ color: "yellow" }}>
-                iMovies - Your Destination to Find Movies
+                E-Study - Ease Any Course
               </a>
             </div>
           </nav>

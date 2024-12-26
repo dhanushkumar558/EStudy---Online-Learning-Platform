@@ -23,7 +23,7 @@ db.connect((err) => {
 });
 
 // API Route to Fetch Web Course Data
-app.get('/api/cards/', (req, res) => {
+app.get('/api/web', (req, res) => {
   const query = 'SELECT * FROM web'; // Fetch data from the 'web' table
   db.query(query, (err, results) => {
     if (err) {
@@ -45,6 +45,17 @@ app.get('/api/python/', (req, res) => {
     }
   });
 });
+
+app.get('/api/ds/', (req, res) => {
+    const query = 'SELECT * FROM  ds'; // Fetch data from the 'python' table
+    db.query(query, (err, results) => {
+      if (err) {
+        res.status(500).json({ error: 'Database query failed for ds courses' });
+      } else {
+        res.json(results); // Send the python courses data
+      }
+    });
+  });
 
 // Start the Server
 app.listen(port, () => {

@@ -3,26 +3,30 @@ import axios from "axios";
 
 const InfiniteScrollingCards_Python = () => {
   const [cards, setCards] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+
   const scrollRef = useRef(null);
 
   useEffect(() => {
     // Fetch cards data from the backend
-    axios.get('http://localhost:5000/api/python/')
-      .then(response => {
-        setCards(response.data);  // Set the cards data from API response
+    axios
+      .get("http://localhost:5000/api/python")
+      .then((response) => {
+        setCards(response.data); // Set the cards data from API response
       })
-      .catch(error => {
-        console.error('Error fetching cards data', error);
+      .catch((error) => {
+        console.error("Error fetching cards data", error);
       });
   }, []);
 
   const scrollLeft = () => {
     const container = scrollRef.current;
+
     if (container.scrollLeft <= 0) {
       container.scrollLeft = container.scrollWidth - container.offsetWidth;
     } else {
       container.scrollBy({
-        left: -300, // Adjust scroll distance
+        left: -300,
         behavior: "smooth",
       });
     }
@@ -30,19 +34,31 @@ const InfiniteScrollingCards_Python = () => {
 
   const scrollRight = () => {
     const container = scrollRef.current;
+
     if (container.scrollLeft + container.offsetWidth >= container.scrollWidth) {
       container.scrollLeft = 0;
     } else {
       container.scrollBy({
-        left: 300, // Adjust scroll distance
+        left: 300,
         behavior: "smooth",
       });
     }
   };
 
+  const toggleWishlist = (id) => {
+    if (wishlist.includes(id)) {
+      setWishlist(wishlist.filter((item) => item !== id)); // Remove from wishlist
+    } else {
+      setWishlist([...wishlist, id]); // Add to wishlist
+    }
+  };
+
   return (
     <>
-      <div className="container-fluid d-flex justify-content-center align-items-center" style={{ textAlign: "center" }}>
+      <div
+        className="container-fluid d-flex justify-content-center align-items-center"
+        style={{ textAlign: "center" }}
+      >
         <h2>Python Courses</h2>
       </div>
 
@@ -70,44 +86,86 @@ const InfiniteScrollingCards_Python = () => {
             whiteSpace: "nowrap",
           }}
         >
-          {/* Duplicate the cards to create an infinite loop effect */}
           {[...cards, ...cards, ...cards].map((card) => (
             <div
               key={card.id}
-              className="card mx-3 text-center"
+              className="card mx-3 text-center position-relative"
               style={{
-                width: "18rem", // Same size for all cards
+                width: "18rem",
                 flex: "0 0 auto",
-                height: "20rem",
+                height: "22rem",
               }}
             >
-              {/* Placeholder image */}
+              {/* Heart-shaped Wishlist Button */}
+              <button
+                className="position-absolute btn"
+                style={{
+                  top: "10px",
+                  right: "10px",
+                  background: "none",
+                  border: "none",
+                  outline: "none",
+                  color: wishlist.includes(card.id) ? "red" : "gray",
+                  fontSize: "1.5rem",
+                  cursor: "pointer",
+                }}
+                onClick={() => toggleWishlist(card.id)}
+              >
+                ❤
+              </button>
+
+              {/* Placeholder Image */}
               <img
-                src={`https://picsum.photos/200/100?random=${card.id}`} // Random placeholder image with 200x100 size
+                src={`https://picsum.photos/200/100?random=${card.id}`}
                 alt="Card placeholder"
                 style={{
-                  width: "100%", // Full width of the card
-                  height: "35%", // 35% of the card height
-                  objectFit: "cover", // Ensure the image fills the space correctly
+                  width: "100%",
+                  height: "35%",
+                  objectFit: "cover",
                 }}
               />
               <div className="card-body">
-                <h5 className="card-title">{card.title}</h5>
+                <h5
+                  className="card-title"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 1,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    height: "1.5rem",
+                  }}
+                >
+                  {card.title}
+                </h5>
 
                 {/* Truncated Description */}
-                <p className="card-text" style={{
-                  display: '-webkit-box',
-                  '-webkit-line-clamp': 3,  // Show only 3 lines
-                  '-webkit-box-orient': 'vertical',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  height: '5rem' // Adjust height based on the number of lines
-                }}>
+                <p
+                  className="card-text"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    
+                  }}
+                >
                   {card.description}
                 </p>
 
                 <p className="card-text">{card.price}</p>
                 <p className="card-text">{card.author}</p>
+
+                {/* Enroll Button */}
+                <button
+                  className="btn btn-success mt-2"
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  Enroll Now
+                </button>
               </div>
             </div>
           ))}
