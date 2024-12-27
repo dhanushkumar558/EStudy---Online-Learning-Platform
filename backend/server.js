@@ -57,6 +57,18 @@ app.get('/api/ds/', (req, res) => {
     });
   });
 
+  // Example Node.js route for fetching course by ID
+app.get("/api/course/:id", (req, res) => {
+  const { id } = req.params;
+  const query = "SELECT * FROM courses WHERE id = ?";
+  db.query(query, [id], (err, results) => {
+    if (err) return res.status(500).json({ error: "Error fetching course details" });
+    if (results.length === 0) return res.status(404).json({ error: "Course not found" });
+    res.json(results[0]); // Send the first course as a response
+  });
+});
+
+
 // Start the Server
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

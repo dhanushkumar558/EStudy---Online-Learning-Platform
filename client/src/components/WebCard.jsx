@@ -146,6 +146,7 @@ const Webcard = ({ wishlist, toggleWishlist, enroll }) => {
   );
 };
 
+
 Webcard.propTypes = {
   wishlist: PropTypes.array.isRequired,
   toggleWishlist: PropTypes.func.isRequired,
