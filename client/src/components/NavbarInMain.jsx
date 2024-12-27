@@ -102,7 +102,7 @@ const NavbarInMain = ({ wishlistCount, wishlistItems, removeFromWishlist, enroll
                               </p>
                             </div>
                           </div>
-                          <div className="d-flex justify-content-center mt-2">
+                         <div className="d-flex justify-content-center mt-2">
   <button
     className="btn btn-danger btn-sm ms-2"
     onClick={() => removeFromWishlist(item.id)}
