@@ -1,9 +1,8 @@
-// NavbarInMain.jsx
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-const NavbarInMain = ({ wishlistCount, wishlistItems }) => {
+const NavbarInMain = ({ wishlistCount, wishlistItems, removeFromWishlist, enroll }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleModalToggle = () => {
@@ -83,25 +82,41 @@ const NavbarInMain = ({ wishlistCount, wishlistItems }) => {
                 {wishlistItems.length === 0 ? (
                   <p>Your wishlist is empty.</p>
                 ) : (
-                  <div className="d-flex flex-wrap justify-content-start">
+                  <div className="d-flex flex-column">
                     {wishlistItems.map((item, index) => (
-                      <div key={index} className="card mx-2" style={{ width: '10rem', marginBottom: '1rem' }}>
-                        <img
-                          src={`https://picsum.photos/200/100?random=${item.id}`}
-                          className="card-img-top"
-                          alt={item.title}
-                          style={{
-                            height: "80px",
-                            objectFit: "cover",
-                          }}
-                        />
-                        <div className="card-body p-2">
-                          <h6 className="card-title" style={{ fontSize: "0.9rem", height: "2rem", overflow: "hidden" }}>
-                            {item.title}
-                          </h6>
-                          <p className="card-text" style={{ fontSize: "0.8rem", height: "3rem", overflow: "hidden" }}>
-                            {item.description}
-                          </p>
+                      <div key={index} className="card mb-2" style={{ width: '100%' }}>
+                        <div className="card-body d-flex justify-content-between align-items-center">
+                          <div className="d-flex align-items-center">
+                            <img
+                              src={`https://picsum.photos/200/100?random=${item.id}`}
+                              className="card-img-top"
+                              alt={item.title}
+                              style={{ height: "50px", width: "80px", objectFit: "cover", marginRight: "10px" }}
+                            />
+                            <div>
+                              <h6 className="card-title" style={{ fontSize: "1rem", marginBottom: "0.5rem", height: "2rem", overflow: "hidden" }}>
+                                {item.title}
+                              </h6>
+                              <p className="card-text" style={{ fontSize: "0.9rem", height: "3rem", overflow: "hidden" }}>
+                                {item.description}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="d-flex justify-content-center mt-2">
+  <button
+    className="btn btn-danger btn-sm ms-2"
+    onClick={() => removeFromWishlist(item.id)}
+  >
+    Delete
+  </button>
+  <button
+    className="btn btn-success btn-sm ms-2"
+    onClick={() => enroll(item)}
+  >
+    Enroll
+  </button>
+</div>
+
                         </div>
                       </div>
                     ))}
@@ -124,6 +139,8 @@ const NavbarInMain = ({ wishlistCount, wishlistItems }) => {
 NavbarInMain.propTypes = {
   wishlistCount: PropTypes.number.isRequired,
   wishlistItems: PropTypes.array.isRequired,
+  removeFromWishlist: PropTypes.func.isRequired,
+  enroll: PropTypes.func.isRequired,
 };
 
 export default NavbarInMain;

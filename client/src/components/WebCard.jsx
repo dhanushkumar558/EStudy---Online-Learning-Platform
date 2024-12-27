@@ -1,5 +1,4 @@
-// WebCard.jsx
-import  { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
 
@@ -80,7 +79,7 @@ const Webcard = ({ wishlist, toggleWishlist }) => {
                   background: "none",
                   border: "none",
                   outline: "none",
-                  color: wishlist.includes(card.id) ? "red" : "gray",
+                  backgroundColor: wishlist.includes(card.id) ? "pink" : "white",
                   fontSize: "1.5rem",
                   cursor: "pointer",
                 }}
@@ -99,21 +98,20 @@ const Webcard = ({ wishlist, toggleWishlist }) => {
               />
               <div className="card-body">
                 <h5 className="card-title" style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 1,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    height: "1.5rem",
-                  }}>{card.title}</h5>
-                <p className="card-text"style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    
-                  }}>{card.description}</p>
+                  display: "-webkit-box",
+                  WebkitLineClamp: 1,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  height: "1.5rem",
+                }}>{card.title}</h5>
+                <p className="card-text" style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}>{card.description}</p>
                 <p className="card-text">{card.price}</p>
                 <p className="card-text">{card.author}</p>
                 <button className="btn btn-success mt-2">Enroll Now</button>

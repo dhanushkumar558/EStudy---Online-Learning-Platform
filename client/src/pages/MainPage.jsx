@@ -1,5 +1,4 @@
-// MainPage.jsx
-import  { useState } from "react";
+import { useState } from "react";
 import Webcard from "../components/WebCard";
 import NavbarInMain from "../components/NavbarInMain";
 import PythonCard from "../components/PythonCard";
@@ -19,9 +18,24 @@ const MainPage = () => {
     }
   };
 
+  const removeFromWishlist = (id) => {
+    setWishlist(wishlist.filter((item) => item !== id));
+    setWishlistItems(wishlistItems.filter((item) => item.id !== id));
+  };
+
+  const enroll = (item) => {
+    // Handle enrollment logic here
+    alert(`Enrolled in ${item.title}`);
+  };
+
   return (
     <>
-      <NavbarInMain wishlistCount={wishlist.length} wishlistItems={wishlistItems} />
+      <NavbarInMain
+        wishlistCount={wishlist.length}
+        wishlistItems={wishlistItems}
+        removeFromWishlist={removeFromWishlist}
+        enroll={enroll}
+      />
       <br />
       <Webcard wishlist={wishlist} toggleWishlist={toggleWishlist} />
       <br />
