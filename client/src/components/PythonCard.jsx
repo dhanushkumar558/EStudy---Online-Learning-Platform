@@ -44,7 +44,7 @@ const Python = ({ wishlist, toggleWishlist, enroll }) => {
   return (
     <>
       <div className="container-fluid d-flex justify-content-center align-items-center" style={{ textAlign: "center" }}>
-        <h2>Web Development Courses</h2>
+        <h2>Python Courses</h2>
       </div>
       <br />
       <div className="container-fluid position-relative">
