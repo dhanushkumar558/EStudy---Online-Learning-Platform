@@ -2,11 +2,16 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 
-const NavbarInMain = ({ wishlistCount, wishlistItems, removeFromWishlist, enroll }) => {
+const NavbarInMain = ({ wishlistCount, wishlistItems, removeFromWishlist, enroll, mylearningsCount, mylearningsItems }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showLearningsModal, setShowLearningsModal] = useState(false); // New state for Mylearnings modal
 
   const handleModalToggle = () => {
     setShowModal(!showModal);
+  };
+
+  const handleLearningsModalToggle = () => {
+    setShowLearningsModal(!showLearningsModal);  // Toggle Mylearnings modal
   };
 
   return (
@@ -60,6 +65,16 @@ const NavbarInMain = ({ wishlistCount, wishlistItems, removeFromWishlist, enroll
                     Wishlist ({wishlistCount})
                   </button>
                 </li>
+                {/* Mylearnings Button */}
+                <li className="nav-item">
+                  <button
+                    className="nav-link btn"
+                    style={{ color: "yellow" }}
+                    onClick={handleLearningsModalToggle}  // Toggle Mylearnings modal
+                  >
+                    Mylearnings ({mylearningsCount})
+                  </button>
+                </li>
               </ul>
             </div>
             <Link to="/" className="btn btn-danger ms-auto d-none d-lg-block">
@@ -69,7 +84,7 @@ const NavbarInMain = ({ wishlistCount, wishlistItems, removeFromWishlist, enroll
         </nav>
       </div>
 
-      {/* Modal */}
+      {/* Wishlist Modal */}
       {showModal && (
         <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog">
@@ -102,21 +117,20 @@ const NavbarInMain = ({ wishlistCount, wishlistItems, removeFromWishlist, enroll
                               </p>
                             </div>
                           </div>
-                         <div className="d-flex justify-content-center mt-2">
-  <button
-    className="btn btn-danger btn-sm ms-2"
-    onClick={() => removeFromWishlist(item.id)}
-  >
-    Delete
-  </button>
-  <button
-    className="btn btn-success btn-sm ms-2"
-    onClick={() => enroll(item)}
-  >
-    Enroll
-  </button>
-</div>
-
+                          <div className="d-flex justify-content-center mt-2">
+                            <button
+                              className="btn btn-danger btn-sm ms-2"
+                              onClick={() => removeFromWishlist(item.id)}
+                            >
+                              Delete
+                            </button>
+                            <button
+                              className="btn btn-success btn-sm ms-2"
+                              onClick={() => enroll(item)}
+                            >
+                              Enroll
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -125,6 +139,55 @@ const NavbarInMain = ({ wishlistCount, wishlistItems, removeFromWishlist, enroll
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={handleModalToggle}>
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mylearnings Modal */}
+      {showLearningsModal && (
+        <div className="modal fade show" style={{ display: 'block' }} tabIndex="-1" aria-labelledby="mylearningsModalLabel" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="mylearningsModalLabel">Your Mylearnings</h5>
+                <button type="button" className="btn-close" onClick={handleLearningsModalToggle}></button>
+              </div>
+              <div className="modal-body">
+                {mylearningsItems.length === 0 ? (
+                  <p>You have not enrolled in any courses yet.</p>
+                ) : (
+                  <div className="d-flex flex-column">
+                    {mylearningsItems.map((item, index) => (
+                      <div key={index} className="card mb-2" style={{ width: '100%' }}>
+                        <div className="card-body d-flex justify-content-between align-items-center">
+                          <div className="d-flex align-items-center">
+                            <img
+                              src={`https://picsum.photos/200/100?random=${item.id}`}
+                              className="card-img-top"
+                              alt={item.title}
+                              style={{ height: "50px", width: "80px", objectFit: "cover", marginRight: "10px" }}
+                            />
+                            <div>
+                              <h6 className="card-title" style={{ fontSize: "1rem", marginBottom: "0.5rem", height: "2rem", overflow: "hidden" }}>
+                                {item.title}
+                              </h6>
+                              <p className="card-text" style={{ fontSize: "0.9rem", height: "3rem", overflow: "hidden" }}>
+                                {item.description}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" onClick={handleLearningsModalToggle}>
                   Close
                 </button>
               </div>
@@ -141,6 +204,8 @@ NavbarInMain.propTypes = {
   wishlistItems: PropTypes.array.isRequired,
   removeFromWishlist: PropTypes.func.isRequired,
   enroll: PropTypes.func.isRequired,
+  mylearningsCount: PropTypes.number.isRequired,
+  mylearningsItems: PropTypes.array.isRequired,
 };
 
 export default NavbarInMain;

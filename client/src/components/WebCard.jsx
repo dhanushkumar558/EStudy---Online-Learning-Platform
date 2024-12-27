@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import PropTypes from 'prop-types';
 
-const Webcard = ({ wishlist, toggleWishlist }) => {
+const Webcard = ({ wishlist, toggleWishlist, enroll }) => {
   const [cards, setCards] = useState([]);
   const scrollRef = useRef(null);
 
@@ -104,17 +104,26 @@ const Webcard = ({ wishlist, toggleWishlist }) => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   height: "1.5rem",
-                }}>{card.title}</h5>
+                }}>
+                  {card.title}
+                </h5>
                 <p className="card-text" style={{
                   display: "-webkit-box",
                   WebkitLineClamp: 3,
                   WebkitBoxOrient: "vertical",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
-                }}>{card.description}</p>
+                }}>
+                  {card.description}
+                </p>
                 <p className="card-text">{card.price}</p>
                 <p className="card-text">{card.author}</p>
-                <button className="btn btn-success mt-2">Enroll Now</button>
+                <button 
+                  className="btn btn-success mt-2" 
+                  onClick={() => enroll(card)}  // Added enroll functionality here
+                >
+                  Enroll Now
+                </button>
               </div>
             </div>
           ))}
@@ -140,6 +149,7 @@ const Webcard = ({ wishlist, toggleWishlist }) => {
 Webcard.propTypes = {
   wishlist: PropTypes.array.isRequired,
   toggleWishlist: PropTypes.func.isRequired,
+  enroll: PropTypes.func.isRequired,  // Add this prop type for enroll
 };
 
 export default Webcard;
