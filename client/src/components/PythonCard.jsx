@@ -1,18 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import PropTypes from 'prop-types';
 
-const InfiniteScrollingCards_Python = () => {
+const Python = ({ wishlist, toggleWishlist, enroll }) => {
   const [cards, setCards] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
-
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    // Fetch cards data from the backend
     axios
       .get("http://localhost:5000/api/python")
       .then((response) => {
-        setCards(response.data); // Set the cards data from API response
+        setCards(response.data);
       })
       .catch((error) => {
         console.error("Error fetching cards data", error);
@@ -21,7 +19,6 @@ const InfiniteScrollingCards_Python = () => {
 
   const scrollLeft = () => {
     const container = scrollRef.current;
-
     if (container.scrollLeft <= 0) {
       container.scrollLeft = container.scrollWidth - container.offsetWidth;
     } else {
@@ -34,7 +31,6 @@ const InfiniteScrollingCards_Python = () => {
 
   const scrollRight = () => {
     const container = scrollRef.current;
-
     if (container.scrollLeft + container.offsetWidth >= container.scrollWidth) {
       container.scrollLeft = 0;
     } else {
@@ -45,25 +41,13 @@ const InfiniteScrollingCards_Python = () => {
     }
   };
 
-  const toggleWishlist = (id) => {
-    if (wishlist.includes(id)) {
-      setWishlist(wishlist.filter((item) => item !== id)); // Remove from wishlist
-    } else {
-      setWishlist([...wishlist, id]); // Add to wishlist
-    }
-  };
-
   return (
     <>
-      <div
-        className="container-fluid d-flex justify-content-center align-items-center"
-        style={{ textAlign: "center" }}
-      >
-        <h2>Python Courses</h2>
+      <div className="container-fluid d-flex justify-content-center align-items-center" style={{ textAlign: "center" }}>
+        <h2>Web Development Courses</h2>
       </div>
-      <br></br>
+      <br />
       <div className="container-fluid position-relative">
-        {/* Left Arrow */}
         <button
           className="btn btn-primary position-absolute"
           style={{
@@ -77,7 +61,6 @@ const InfiniteScrollingCards_Python = () => {
           &#8592;
         </button>
 
-        {/* Cards Container */}
         <div
           ref={scrollRef}
           className="d-flex justify-content-center align-items-center position-relative"
@@ -86,17 +69,8 @@ const InfiniteScrollingCards_Python = () => {
             whiteSpace: "nowrap",
           }}
         >
-          {[...cards, ...cards, ...cards].map((card) => (
-            <div
-              key={card.id}
-              className="card mx-3 text-center position-relative"
-              style={{
-                width: "18rem",
-                flex: "0 0 auto",
-                height: "22rem",
-              }}
-            >
-              {/* Heart-shaped Wishlist Button */}
+          {cards.map((card) => (
+            <div key={card.id} className="card mx-3 text-center position-relative" style={{ width: "18rem", flex: "0 0 auto", height: "22rem" }}>
               <button
                 className="position-absolute btn"
                 style={{
@@ -105,16 +79,14 @@ const InfiniteScrollingCards_Python = () => {
                   background: "none",
                   border: "none",
                   outline: "none",
-                  color: wishlist.includes(card.id) ? "red" : "gray",
+                  backgroundColor: wishlist.includes(card.id) ? "pink" : "white",
                   fontSize: "1.5rem",
                   cursor: "pointer",
                 }}
-                onClick={() => toggleWishlist(card.id)}
+                onClick={() => toggleWishlist(card.id, card)}
               >
                 ❤
               </button>
-
-              {/* Placeholder Image */}
               <img
                 src={`https://picsum.photos/200/100?random=${card.id}`}
                 alt="Card placeholder"
@@ -125,44 +97,30 @@ const InfiniteScrollingCards_Python = () => {
                 }}
               />
               <div className="card-body">
-                <h5
-                  className="card-title"
-                  style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 1,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    height: "1.5rem",
-                  }}
-                >
+                <h5 className="card-title" style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 1,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  height: "1.5rem",
+                }}>
                   {card.title}
                 </h5>
-
-                {/* Truncated Description */}
-                <p
-                  className="card-text"
-                  style={{
-                    display: "-webkit-box",
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    
-                  }}
-                >
+                <p className="card-text" style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}>
                   {card.description}
                 </p>
-
                 <p className="card-text">{card.price}</p>
                 <p className="card-text">{card.author}</p>
-
-                {/* Enroll Button */}
-                <button
-                  className="btn btn-success mt-2"
-                  style={{
-                    width: "100%",
-                  }}
+                <button 
+                  className="btn btn-success mt-2" 
+                  onClick={() => enroll(card)}  // Added enroll functionality here
                 >
                   Enroll Now
                 </button>
@@ -171,7 +129,6 @@ const InfiniteScrollingCards_Python = () => {
           ))}
         </div>
 
-        {/* Right Arrow */}
         <button
           className="btn btn-primary position-absolute"
           style={{
@@ -189,4 +146,10 @@ const InfiniteScrollingCards_Python = () => {
   );
 };
 
-export default InfiniteScrollingCards_Python;
+Python.propTypes = {
+  wishlist: PropTypes.array.isRequired,
+  toggleWishlist: PropTypes.func.isRequired,
+  enroll: PropTypes.func.isRequired,  // Add this prop type for enroll
+};
+
+export default Python;
